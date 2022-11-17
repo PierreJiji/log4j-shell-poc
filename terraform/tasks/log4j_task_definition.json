@@ -1,0 +1,39 @@
+[
+  {
+    "dnsSearchDomains": null,
+    "environmentFiles": null,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "secretOptions": null,
+      "options": {
+        "awslogs-group": "${ecs_awslogs_group}",
+        "awslogs-region": "${ecs_region}",
+        "awslogs-stream-prefix": "ecs"
+      }
+    },
+    "entryPoint": null,
+    "portMappings": [
+      {
+        "hostPort": ${app_host_port},
+        "protocol": "tcp",
+        "containerPort": ${app_host_port}
+      }
+    ],
+    "command": null,
+    "linuxParameters": null,
+    "cpu": 0,
+    "image": "${app_image}",
+    "healthCheck": {
+      "retries": 5,
+      "command": [
+        "CMD-SHELL",
+        "curl -f http://localhost:${app_host_port} || exit 1"
+      ],
+      "timeout": 15,
+      "interval": 30,
+      "startPeriod": 300
+    },
+    "essential": true,
+    "name": "${ecs_container_name}"
+  }
+]
